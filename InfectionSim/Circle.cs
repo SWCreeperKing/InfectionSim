@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Raylib_CsLo;
 using RayWrapper.Base.GameBox;
 
 namespace InfectionSim;
@@ -18,7 +17,7 @@ public class Circle
             if (_infected = value)
             {
                 Sick++;
-                _infectedTimer = CollisionManager.maxInfectTimer;
+                _infectedTimer = _cm.maxInfectTimer;
             }
             else Healthy++;
         }
@@ -30,8 +29,9 @@ public class Circle
 
     private bool _infected;
     private float _infectedTimer;
+    private CollisionManager _cm;
     
-    public Circle(float radius, float velocityAllocation = 125)
+    public Circle(CollisionManager cm, float radius, float velocityAllocation = 125)
     {
         var phi = 2 * Math.PI * r.NextDouble();
         var vx = .25f * Math.Cos(phi);
@@ -42,6 +42,7 @@ public class Circle
         var windowSize = GameBox.WindowSize;
         Position = new Vector2(r.Next((int) windowSize.X), r.Next((int) windowSize.Y));
         Velocity = new Vector2((float) vx, (float) vy) * velocityAllocation;
+        _cm = cm;
     }
 
     public void Update(float dt)
@@ -66,14 +67,9 @@ public class Circle
         }
     }
 
-    public void Render()
-    {
-        Raylib.DrawCircle((int) Position.X, (int) Position.Y, Radius, Infected ? Raylib.RED : Raylib.GREEN);
-    }
-
     public void GetInfected()
     {
-        if (!(r.NextDouble() < CollisionManager.infectChance)) return;
+        if (!(r.NextDouble() < _cm.infectChance)) return;
         Healthy--;
         Infected = true;
     }

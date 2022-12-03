@@ -4,17 +4,17 @@ namespace InfectionSim;
 
 public class CollisionManager
 {
-    public static bool paused;
-    public static bool spawnSick;
-    public static float maxInfectTimer = 40;
-    public static float simSpeed = 1;
-    public static float radius = 15;
-    public static float infectChance = .5f;
-    public static List<Circle> circles = new();
-    
-    private static List<Circle> _activeInterval = new();
-    
-    public static void Update(float dt)
+    public bool paused;
+    public bool spawnSick;
+    public float maxInfectTimer = 40;
+    public float simSpeed = 1;
+    public float radius = 15;
+    public float infectChance = .5f;
+    public List<Circle> circles = new();
+
+    private List<Circle> _activeInterval = new();
+
+    public void Update(float dt)
     {
         var modDt = dt;
 
