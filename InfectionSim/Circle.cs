@@ -18,7 +18,7 @@ public class Circle
             if (_infected = value)
             {
                 Sick++;
-                _infectedTimer = Program.maxInfectTimer;
+                _infectedTimer = CollisionManager.maxInfectTimer;
             }
             else Healthy++;
         }
@@ -73,11 +73,9 @@ public class Circle
 
     public void GetInfected()
     {
-        if (r.NextDouble() < Program.infectChance)
-        {
-            Healthy--;
-            Infected = true;
-        }
+        if (!(r.NextDouble() < CollisionManager.infectChance)) return;
+        Healthy--;
+        Infected = true;
     }
 
     public void Cured()
